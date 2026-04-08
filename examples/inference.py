@@ -1,5 +1,4 @@
 """
-室内障碍物检测 - 推理示例
 Indoor Obstacle Detection - Inference Example
 """
 
@@ -9,11 +8,11 @@ import argparse
 
 
 def detect_image(model_path: str, image_path: str, conf: float = 0.5):
-    """检测单张图片"""
+    """Detect objects in a single image"""
     model = YOLO(model_path)
     results = model.predict(source=image_path, save=True, conf=conf)
     
-    print(f"\n检测结果 ({image_path}):")
+    print(f"\nDetection Results ({image_path}):")
     print("-" * 40)
     
     for result in results:
@@ -29,10 +28,10 @@ def detect_image(model_path: str, image_path: str, conf: float = 0.5):
 
 
 def detect_camera(model_path: str, conf: float = 0.5):
-    """实时摄像头检测"""
+    """Real-time camera detection"""
     model = YOLO(model_path)
     
-    print("启动摄像头检测... 按 'q' 退出")
+    print("Starting camera detection... Press 'q' to quit")
     
     cap = cv2.VideoCapture(0)
     
@@ -43,7 +42,7 @@ def detect_camera(model_path: str, conf: float = 0.5):
             
         results = model.predict(source=frame, conf=conf, verbose=False)
         
-        # 绘制检测结果
+        # Draw detection results
         annotated_frame = results[0].plot()
         
         cv2.imshow('Obstacle Detection', annotated_frame)
@@ -56,18 +55,18 @@ def detect_camera(model_path: str, conf: float = 0.5):
 
 
 def detect_video(model_path: str, video_path: str, conf: float = 0.5):
-    """检测视频文件"""
+    """Detect objects in a video file"""
     model = YOLO(model_path)
     results = model.predict(source=video_path, save=True, conf=conf)
-    print(f"视频检测完成！结果保存在 runs/detect/ 目录")
+    print(f"Video detection complete! Results saved in runs/detect/")
     return results
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='室内障碍物检测')
-    parser.add_argument('--model', type=str, default='weights/best.pt', help='模型路径')
-    parser.add_argument('--source', type=str, default='0', help='图片/视频路径，或 0 表示摄像头')
-    parser.add_argument('--conf', type=float, default=0.5, help='置信度阈值')
+    parser = argparse.ArgumentParser(description='Indoor Obstacle Detection')
+    parser.add_argument('--model', type=str, default='weights/best.pt', help='Model path')
+    parser.add_argument('--source', type=str, default='0', help='Image/video path, or 0 for camera')
+    parser.add_argument('--conf', type=float, default=0.5, help='Confidence threshold')
     
     args = parser.parse_args()
     

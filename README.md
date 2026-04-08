@@ -1,96 +1,96 @@
-# 🤖 Indoor Obstacle Detection (室内障碍物检测)
+# 🤖 Indoor Obstacle Detection
 
-基于 YOLOv8 的室内障碍物检测模型，专为机器人导航设计。
+YOLOv8-based indoor obstacle detection model designed for robot navigation.
 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
 ![YOLOv8](https://img.shields.io/badge/YOLOv8-ultralytics-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## 🎯 可检测类别
+## 🎯 Detectable Classes
 
-| ID | 类别 | 英文 |
-|----|------|------|
-| 0 | 关闭的门 | closed_door |
-| 1 | 门 | door |
-| 2 | 电梯 | elevator |
-| 3 | 扶梯 | escalator |
-| 4 | 人行道 | footpath |
-| 5 | 障碍物 | obstacle |
-| 6 | 行人 | person |
-| 7 | 墙 | wall |
+| ID | Class |
+|----|-------|
+| 0 | closed_door |
+| 1 | door |
+| 2 | elevator |
+| 3 | escalator |
+| 4 | footpath |
+| 5 | obstacle |
+| 6 | person |
+| 7 | wall |
 
-## 📊 模型性能
+## 📊 Model Performance
 
-| 指标 | 值 |
-|------|-----|
+| Metric | Value |
+|--------|-------|
 | mAP50 | 56.3% |
 | mAP50-95 | 34.9% |
-| 模型大小 | 6 MB (PyTorch) |
-| 推理速度 | ~90ms/image (CPU) |
+| Model Size | 6 MB (PyTorch) |
+| Inference Speed | ~90ms/image (CPU) |
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 安装
+### Installation
 
 ```bash
 pip install ultralytics
 ```
 
-### 下载模型
+### Download Model
 
-从 [Releases](../../releases) 下载 `best.pt` 或 `best.onnx`
+Download `best.pt` or `best.onnx` from [Releases](../../releases)
 
-### 使用示例
+### Usage Example
 
 ```python
 from ultralytics import YOLO
 
-# 加载模型
+# Load model
 model = YOLO('weights/best.pt')
 
-# 检测单张图片
+# Detect single image
 results = model.predict(source='test.jpg', save=True, conf=0.5)
 
-# 实时摄像头检测
+# Real-time camera detection
 results = model.predict(source=0, show=True, conf=0.5)
 
-# 检测视频文件
+# Detect video file
 results = model.predict(source='video.mp4', save=True, conf=0.5)
 ```
 
-### 获取检测结果
+### Get Detection Results
 
 ```python
 for result in results:
     for box in result.boxes:
-        cls_id = int(box.cls[0])           # 类别ID
-        conf = float(box.conf[0])          # 置信度
-        x1, y1, x2, y2 = box.xyxy[0]       # 边界框坐标
-        class_name = model.names[cls_id]   # 类别名称
+        cls_id = int(box.cls[0])           # Class ID
+        conf = float(box.conf[0])          # Confidence
+        x1, y1, x2, y2 = box.xyxy[0]       # Bounding box coordinates
+        class_name = model.names[cls_id]   # Class name
         
-        print(f"检测到: {class_name}, 置信度: {conf:.2%}")
+        print(f"Detected: {class_name}, Confidence: {conf:.2%}")
 ```
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 indoor-obstacle-detection/
 ├── README.md
 ├── requirements.txt
 ├── weights/
-│   ├── best.pt          # PyTorch 模型
-│   └── best.onnx        # ONNX 模型 (跨平台部署)
+│   ├── best.pt          # PyTorch model
+│   └── best.onnx        # ONNX model (cross-platform deployment)
 ├── notebooks/
-│   └── train.ipynb      # 训练代码
+│   └── train.ipynb      # Training code
 └── examples/
-    └── inference.py     # 推理示例
+    └── inference.py     # Inference example
 ```
 
-## 🔧 训练自己的模型
+## 🔧 Train Your Own Model
 
-1. 准备数据集 (YOLOv8 格式)
-2. 修改 `data.yaml` 配置
-3. 运行训练:
+1. Prepare dataset (YOLOv8 format)
+2. Modify `data.yaml` configuration
+3. Run training:
 
 ```python
 from ultralytics import YOLO
@@ -99,14 +99,14 @@ model = YOLO('yolov8n.pt')
 model.train(data='data.yaml', epochs=50, imgsz=640)
 ```
 
-## 🤝 贡献
+## 🤝 Contributing
 
-欢迎提交 Issue 和 Pull Request！
+Issues and Pull Requests are welcome!
 
 ## 📄 License
 
 MIT License
 
-## 👥 作者
+## 👥 Author
 
 Joseph Lab @ McGill University
